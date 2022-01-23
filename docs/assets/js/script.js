@@ -1,4 +1,6 @@
 
+//-----------------Consulting object constructor------------------
+
 function Consultorio(nombre, paciente) {
     let _nombre = nombre;
     let _paciente = [paciente] || [];
@@ -17,12 +19,12 @@ function Consultorio(nombre, paciente) {
             return _paciente;
         },
         set: function(nuevoPaciente){
-            
+            alert("You must use the function '.setPacienteConsultorio'") //_paciente array protection
         }
     })
 }
 
-
+//----------------Patient object constructor--------------
 
 function Paciente(nombre, edad, rut, diagnostico) {
     let _nombre = nombre;
@@ -67,6 +69,8 @@ function Paciente(nombre, edad, rut, diagnostico) {
     });
 
 
+//--------------Consulting room prototype functions-----------------------
+
 }
 
 Consultorio.prototype.getNombreConsultorio = function () {
@@ -85,7 +89,7 @@ Consultorio.prototype.getPacienteConsultorio = function () {
     this._paciente.push(nuevoPaciente);
  }
 
-
+//-----------------------------To find some patient and his data, as object---------------------------------
 
  Consultorio.prototype.getAPatient = function(patientName) {
 
@@ -94,19 +98,22 @@ Consultorio.prototype.getPacienteConsultorio = function () {
     this._paciente.forEach(element => {
         
       if (element._nombre == patientName) {
-          patientData = element;
+          
+          patientData = (({ _nombre, _edad, _rut, _diagnostico }) => ({ _nombre, _edad, _rut, _diagnostico }))(element)
+        console.log(patientData)
       }
     });
 
-     console.log(patientData)
-
  }
+
+
+ //------------------------To get all consulting room patient's names and other data, as string---------------------
 
  Consultorio.prototype.getAllPatients = function () {
-     this._paciente.forEach(e => console.log(e._nombre) ) 
+     this._paciente.forEach(e => console.log(`nombre: ${e._nombre}, edad: ${e._edad}, rut: ${e._rut}, diagnostico: ${e._diagnostico}`) ) 
  }
 
- //------------paciente---------------
+ //------------patient prototype functions---------------
 
  Paciente.prototype.getNombrePaciente = function () {
     return this._nombre;
@@ -148,27 +155,31 @@ Consultorio.prototype.getPacienteConsultorio = function () {
 
 
 
-
+//--------instantiation------------
 
 var p1 = new Paciente("lala", 29, "99999", "enferma");
 var p2 = new Paciente("lili", 31, "44444", "grave");
+var p3 = new Paciente("pepo", 40, "222222", "chomier")
 
 var c1 = new Consultorio("Los alamos", p1);
 
 
-console.log(p1._nombre)
+//console.log(p1._nombre)
 
-console.log(c1._paciente._nombre)
+//console.log(c1._paciente._nombre)
 
-console.log(c1.getNombreConsultorio())
+//console.log(c1.getNombreConsultorio())
 
 c1.setPacienteConsultorio(p2)
+c1.setPacienteConsultorio(p3)
 
-console.log(c1._nombre)
+//console.log(c1._nombre)
 
-console.log(c1._paciente)
+//console.log(c1._paciente)
 
-c1.getAPatient("lala")
+//--------------------search---------------------
+
+c1.getAPatient("pepo")
 
 c1.getAllPatients()
 
